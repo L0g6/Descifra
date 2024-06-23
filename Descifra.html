@@ -4,60 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Descifrador de Texto Personalizado</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
         }
-        input, textarea, button {
-            display: block;
-            margin: 10px 0;
-            padding: 10px;
-            font-size: 16px;
-        }
-        .number-values, .decodings {
-            display: flex;
-            flex-direction: column;
-        }
-        .number-values div, .decodings div {
-            margin: 5px 0;
-        }
         .number-values select {
-            width: 50px;
+            width: 60px;
             text-align: center;
         }
     </style>
 </head>
 <body>
-    <h1>Descifrador de Texto Personalizado</h1>
+    <div class="container">
+        <h1 class="text-center my-4">Descifrador de Texto Personalizado</h1>
 
-    <label for="inputText">Ingrese el texto cifrado:</label>
-    <textarea id="inputText" rows="5" cols="50"></textarea>
+        <div class="form-group">
+            <label for="inputText">Ingrese el texto cifrado:</label>
+            <textarea id="inputText" class="form-control" rows="3"></textarea>
+        </div>
 
-    <div class="decodings">
-        <div>
-            <h3>Suposición 1</h3>
-            <div class="number-values" id="sup1">
-                <script>generateInputs('sup1');</script>
+        <div class="row">
+            <div class="col-md-4">
+                <h3>Suposición 1</h3>
+                <div class="number-values" id="sup1"></div>
+                <button class="btn btn-primary btn-block my-2" onclick="descifrarTexto(1)">Descifrar Suposición 1</button>
+                <textarea id="outputText1" class="form-control" rows="3" readonly></textarea>
             </div>
-            <button onclick="descifrarTexto(1)">Descifrar Suposición 1</button>
-            <textarea id="outputText1" rows="5" cols="50" readonly></textarea>
-        </div>
-        <div>
-            <h3>Suposición 2</h3>
-            <div class="number-values" id="sup2">
-                <script>generateInputs('sup2');</script>
+            <div class="col-md-4">
+                <h3>Suposición 2</h3>
+                <div class="number-values" id="sup2"></div>
+                <button class="btn btn-primary btn-block my-2" onclick="descifrarTexto(2)">Descifrar Suposición 2</button>
+                <textarea id="outputText2" class="form-control" rows="3" readonly></textarea>
             </div>
-            <button onclick="descifrarTexto(2)">Descifrar Suposición 2</button>
-            <textarea id="outputText2" rows="5" cols="50" readonly></textarea>
-        </div>
-        <div>
-            <h3>Suposición 3</h3>
-            <div class="number-values" id="sup3">
-                <script>generateInputs('sup3');</script>
+            <div class="col-md-4">
+                <h3>Suposición 3</h3>
+                <div class="number-values" id="sup3"></div>
+                <button class="btn btn-primary btn-block my-2" onclick="descifrarTexto(3)">Descifrar Suposición 3</button>
+                <textarea id="outputText3" class="form-control" rows="3" readonly></textarea>
             </div>
-            <button onclick="descifrarTexto(3)">Descifrar Suposición 3</button>
-            <textarea id="outputText3" rows="5" cols="50" readonly></textarea>
         </div>
     </div>
 
@@ -65,9 +51,11 @@
         const letras = 'abcdefghijklmnñopqrstuvwxyz';
 
         function generateInputs(id) {
+            let html = '';
             for (let i = 1; i <= 27; i++) {
-                document.getElementById(id).innerHTML += `<div><label>${i}: <select id="${id}_value_${i}">${generateOptions()}</select></label></div>`;
+                html += `<div class="form-group"><label>${i}: <select class="form-control" id="${id}_value_${i}">${generateOptions()}</select></label></div>`;
             }
+            document.getElementById(id).innerHTML = html;
         }
 
         function generateOptions() {
@@ -103,5 +91,9 @@
             generateInputs('sup3');
         });
     </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
