@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cifrador de Texto</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        input, textarea, button {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cifrador de Texto</h1>
+    <label for="inputText">Ingrese el texto a cifrar:</label>
+    <textarea id="inputText" rows="5" cols="50"></textarea>
+    <button onclick="cifrarTexto()">Cifrar</button>
+    <h2>Texto Cifrado:</h2>
+    <textarea id="outputText" rows="5" cols="50" readonly></textarea>
+
+    <script>
+        function cifrarTexto() {
+            const inputText = document.getElementById('inputText').value.toLowerCase();
+            const outputText = inputText.split('').map(char => {
+                return letraANumero(char);
+            }).join(' ');
+            document.getElementById('outputText').value = outputText;
+        }
+
+        function letraANumero(char) {
+            const letras = 'abcdefghijklmnñopqrstuvwxyz';
+            const indice = letras.indexOf(char);
+            return indice >= 0 ? indice + 1 : char;
+        }
+    </script>
+</body>
+</html>
