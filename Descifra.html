@@ -15,12 +15,12 @@
             padding: 10px;
             font-size: 16px;
         }
-        .number-values {
+        .number-values, .decodings {
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: column;
         }
-        .number-values div {
-            margin: 5px;
+        .number-values div, .decodings div {
+            margin: 5px 0;
         }
         .number-values select {
             width: 50px;
@@ -31,49 +31,77 @@
 <body>
     <h1>Descifrador de Texto Personalizado</h1>
 
-    <div class="number-values">
-        <!-- Generar selects para cada número del 1 al 27 -->
-        <script>
-            for (let i = 1; i <= 27; i++) {
-                document.write(`<div><label>${i}: <select id="value_${i}">${generateOptions()}</select></label></div>`);
-            }
-
-            function generateOptions() {
-                const letras = 'abcdefghijklmnñopqrstuvwxyz';
-                let options = '<option value=""></option>';
-                letras.split('').forEach(letra => {
-                    options += `<option value="${letra}">${letra}</option>`;
-                });
-                return options;
-            }
-        </script>
-    </div>
-
     <label for="inputText">Ingrese el texto cifrado:</label>
     <textarea id="inputText" rows="5" cols="50"></textarea>
-    <button onclick="descifrarTexto()">Descifrar</button>
-    <h2>Texto Descifrado:</h2>
-    <textarea id="outputText" rows="5" cols="50" readonly></textarea>
+
+    <div class="decodings">
+        <div>
+            <h3>Suposición 1</h3>
+            <div class="number-values" id="sup1">
+                <script>generateInputs('sup1');</script>
+            </div>
+            <button onclick="descifrarTexto(1)">Descifrar Suposición 1</button>
+            <textarea id="outputText1" rows="5" cols="50" readonly></textarea>
+        </div>
+        <div>
+            <h3>Suposición 2</h3>
+            <div class="number-values" id="sup2">
+                <script>generateInputs('sup2');</script>
+            </div>
+            <button onclick="descifrarTexto(2)">Descifrar Suposición 2</button>
+            <textarea id="outputText2" rows="5" cols="50" readonly></textarea>
+        </div>
+        <div>
+            <h3>Suposición 3</h3>
+            <div class="number-values" id="sup3">
+                <script>generateInputs('sup3');</script>
+            </div>
+            <button onclick="descifrarTexto(3)">Descifrar Suposición 3</button>
+            <textarea id="outputText3" rows="5" cols="50" readonly></textarea>
+        </div>
+    </div>
 
     <script>
-        function descifrarTexto() {
+        const letras = 'abcdefghijklmnñopqrstuvwxyz';
+
+        function generateInputs(id) {
+            for (let i = 1; i <= 27; i++) {
+                document.getElementById(id).innerHTML += `<div><label>${i}: <select id="${id}_value_${i}">${generateOptions()}</select></label></div>`;
+            }
+        }
+
+        function generateOptions() {
+            let options = '<option value=""></option>';
+            letras.split('').forEach(letra => {
+                options += `<option value="${letra}">${letra}</option>`;
+            });
+            return options;
+        }
+
+        function descifrarTexto(suposicion) {
             const inputText = document.getElementById('inputText').value.trim();
             const words = inputText.split('  ');
             const outputWords = words.map(word => {
                 const chars = word.split(' ');
-                return chars.map(num => numeroALetra(num)).join('');
+                return chars.map(num => numeroALetra(num, suposicion)).join('');
             });
             const outputText = outputWords.join(' ');
-            document.getElementById('outputText').value = outputText;
+            document.getElementById(`outputText${suposicion}`).value = outputText;
         }
 
-        function numeroALetra(num) {
-            const select = document.getElementById(`value_${num}`);
+        function numeroALetra(num, suposicion) {
+            const select = document.getElementById(`sup${suposicion}_value_${num}`);
             if (select) {
                 return select.value || num;
             }
             return num;
         }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            generateInputs('sup1');
+            generateInputs('sup2');
+            generateInputs('sup3');
+        });
     </script>
 </body>
 </html>
