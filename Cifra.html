@@ -15,6 +15,15 @@
             padding: 10px;
             font-size: 16px;
         }
+        .output-container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .output-container input {
+            width: 30px;
+            margin: 2px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -23,21 +32,30 @@
     <textarea id="inputText" rows="5" cols="50"></textarea>
     <button onclick="cifrarTexto()">Cifrar</button>
     <h2>Texto Cifrado:</h2>
-    <textarea id="outputText" rows="5" cols="50" readonly></textarea>
+    <div class="output-container" id="outputContainer"></div>
 
     <script>
         function cifrarTexto() {
             const inputText = document.getElementById('inputText').value.toLowerCase();
+            const outputContainer = document.getElementById('outputContainer');
+            outputContainer.innerHTML = ''; // Limpiar el contenido previo
             const outputText = inputText.split('').map(char => {
                 return letraANumero(char);
-            }).join(' ');
-            document.getElementById('outputText').value = outputText;
+            });
+
+            outputText.forEach(num => {
+                const inputBox = document.createElement('input');
+                inputBox.type = 'text';
+                inputBox.value = num;
+                inputBox.readOnly = true;
+                outputContainer.appendChild(inputBox);
+            });
         }
 
         function letraANumero(char) {
             const letras = 'abcdefghijklmnñopqrstuvwxyz';
             const indice = letras.indexOf(char);
-            return indice >= 0 ? indice + 1 : char;
+            return indice >= 0 ? indice + 1 : '';
         }
     </script>
 </body>
