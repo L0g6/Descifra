@@ -23,7 +23,7 @@
             margin: 5px;
         }
         .number-values select {
-            width: 40px;
+            width: 50px;
             text-align: center;
         }
     </style>
@@ -58,9 +58,12 @@
     <script>
         function descifrarTexto() {
             const inputText = document.getElementById('inputText').value.trim();
-            const outputText = inputText.split(' ').map(num => {
-                return numeroALetra(num);
-            }).join('');
+            const words = inputText.split('  ');
+            const outputWords = words.map(word => {
+                const chars = word.split(' ');
+                return chars.map(num => numeroALetra(num)).join('');
+            });
+            const outputText = outputWords.join(' ');
             document.getElementById('outputText').value = outputText;
         }
 
