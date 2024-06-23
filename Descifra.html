@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Descifrador de Texto Personalizado</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        input, textarea, button {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .number-values {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .number-values div {
+            margin: 5px;
+        }
+        .number-values select {
+            width: 40px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Descifrador de Texto Personalizado</h1>
+
+    <div class="number-values">
+        <!-- Generar selects para cada número del 1 al 27 -->
+        <script>
+            for (let i = 1; i <= 27; i++) {
+                document.write(`<div><label>${i}: <select id="value_${i}">${generateOptions()}</select></label></div>`);
+            }
+
+            function generateOptions() {
+                const letras = 'abcdefghijklmnñopqrstuvwxyz';
+                let options = '<option value=""></option>';
+                letras.split('').forEach(letra => {
+                    options += `<option value="${letra}">${letra}</option>`;
+                });
+                return options;
+            }
+        </script>
+    </div>
+
+    <label for="inputText">Ingrese el texto cifrado:</label>
+    <textarea id="inputText" rows="5" cols="50"></textarea>
+    <button onclick="descifrarTexto()">Descifrar</button>
+    <h2>Texto Descifrado:</h2>
+    <textarea id="outputText" rows="5" cols="50" readonly></textarea>
+
+    <script>
+        function descifrarTexto() {
+            const inputText = document.getElementById('inputText').value.trim();
+            const outputText = inputText.split(' ').map(num => {
+                return numeroALetra(num);
+            }).join('');
+            document.getElementById('outputText').value = outputText;
+        }
+
+        function numeroALetra(num) {
+            const select = document.getElementById(`value_${num}`);
+            if (select) {
+                return select.value || num;
+            }
+            return num;
+        }
+    </script>
+</body>
+</html>
